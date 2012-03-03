@@ -78,7 +78,7 @@ def getInfos(uid):
     districBlock = soup.find('br', text=re.compile(u"地区"))
     genderBlock = soup.find('br', text=re.compile(u"性别")) 
     if districBlock == None or genderBlock == None:
-        return
+        return False
     
     distric = districBlock[3:]   
     gender = genderBlock[3:]
@@ -88,6 +88,7 @@ def getInfos(uid):
     c.execute("""insert into user(uid, gender, district, tags)
             values(?, ?, ?, ?)""",(uid, gender, distric, tags))  
     conn.commit()
+    return True  
     
 
 ##get the uid from user's url 
@@ -178,11 +179,11 @@ def main():
         print count
         print len(todoUidList)  
         print time.strftime('%d-%H:%M',time.localtime(time.time()))     
-        getInfos(uid)
-        count = count + 1
-        if not getFollowing(uid):
-            c.execute('delete from user where uid=' + uid)  
-            conn.commit()
+        if getInfos(uid):
+            count = count + 1
+            if not getFollowing(uid):
+                c.execute('delete from user where uid=' + uid)  
+                conn.commit()
             
         # Slow down
         time.sleep(0.5)
