@@ -77,7 +77,7 @@ def getInfos(uid):
 
     districBlock = soup.find('br', text=re.compile(u"地区"))
     genderBlock = soup.find('br', text=re.compile(u"性别")) 
-    if distric == None or gender == None:
+    if districBlock == None or genderBlock == None:
         return
     
     distric = districBlock[3:]   
