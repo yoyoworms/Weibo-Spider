@@ -180,13 +180,11 @@ def main():
         print len(todoUidList)  
         print time.strftime('%d-%H:%M',time.localtime(time.time()))     
         if getInfos(uid):
-            count = count + 1
             if not getFollowing(uid):
                 c.execute('delete from user where uid=' + uid)  
                 conn.commit()
-            
-        # Slow down
-        time.sleep(0.5)
+        
+        count = count + 1
         
     
 
