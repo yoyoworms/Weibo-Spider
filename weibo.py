@@ -63,6 +63,7 @@ def getTags(uid):
     soup = soupfy(tagUrl)
     
     tags = soup.findAll('a', attrs={'href': re.compile(u"^/search"), 'class':None})
+    
     tagList = []
     for tag in tags:
         tagList.append(tag.text)
@@ -75,9 +76,13 @@ def getInfos(uid):
     soup = soupfy(infoUrl)
 
     districBlock = soup.find('br', text=re.compile(u"地区"))
-    distric = districBlock[3:]
-    genderBlock = soup.find('br', text=re.compile(u"性别"))    
+    genderBlock = soup.find('br', text=re.compile(u"性别")) 
+    if distric == None or gender == None:
+        return
+    
+    distric = districBlock[3:]   
     gender = genderBlock[3:]
+    
     tags = getTags(uid)
     
     c.execute("""insert into user(uid, gender, district, tags)
