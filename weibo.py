@@ -8,6 +8,7 @@ import string
 from BeautifulSoup import BeautifulSoup
 import re
 import time
+import socket
 
 BASE_URL = 'http://weibo.cn'
 
@@ -41,6 +42,9 @@ c = conn.cursor()
 #Create table
 c.execute('''create table user (uid text primary key, gender text, district text, tags text)''')
 c.execute('''create table relation (id integer primary key autoincrement, following_uid text, follower_uid text)''')
+
+
+socket.setdefaulttimeout(30)
 
 # Http parameter
 http = httplib2.Http()
